@@ -6,8 +6,8 @@ import {
   Cat, Dog, Bird, ShieldPlus, Bug, Beaker, Dna, 
   Zap, SquareActivity, Brain, Droplet, Clock
 } from "lucide-react";
-import cinvetLogo from "@assets/cinvet_1778523556349.png";
-import sobreNosImg from "@assets/cinvet_sobre_nos_1778524202959.jpg";
+const cinvetLogo = "/cinvet-logo.png";
+const sobreNosImg = "/cinvet-sobre-nos.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
