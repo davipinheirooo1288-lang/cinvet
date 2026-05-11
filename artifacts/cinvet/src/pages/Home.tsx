@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { FaWhatsapp, FaInstagram, FaFacebook } from "react-icons/fa";
 import { 
-  Stethoscope, Activity, HeartPulse, Bone, Eye, Pill, Search, Syringe,
-  Cat, Dog, Bird, ShieldPlus, Bug, Baby, Beaker, Dna, 
-  Zap, Stethoscope as Vet, SquareActivity, Brain, Droplet, Clock
+  Activity, HeartPulse, Bone, Eye, Pill, Search, Syringe,
+  Cat, Dog, Bird, ShieldPlus, Bug, Beaker, Dna, 
+  Zap, SquareActivity, Brain, Droplet, Clock
 } from "lucide-react";
+import cinvetLogo from "@assets/cinvet_1778523556349.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,6 +56,8 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedService, setSelectedService] = useState("");
   const [petName, setPetName] = useState("");
+  const [hoveredReview, setHoveredReview] = useState<number | null>(null);
+  const [activeNav, setActiveNav] = useState("");
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -63,6 +66,7 @@ export default function Home() {
   }, []);
 
   const scrollToSection = (id: string) => {
+    setActiveNav(id);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -86,14 +90,35 @@ export default function Home() {
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"}`}>
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection("hero")}>
-            <Stethoscope className="w-8 h-8 text-primary" />
+            <img src={cinvetLogo} alt="Cinvet Logo" className="w-10 h-10 object-contain rounded-full" />
             <span className="font-serif font-bold text-2xl tracking-tight text-primary">Cinvet</span>
           </div>
           <nav className="hidden md:flex gap-8 items-center text-sm font-medium text-foreground/80">
-            <button onClick={() => scrollToSection("hero")} className="hover:text-primary transition-colors">Início</button>
-            <button onClick={() => scrollToSection("services")} className="hover:text-primary transition-colors">Serviços</button>
-            <button onClick={() => scrollToSection("reviews")} className="hover:text-primary transition-colors">Avaliações</button>
-            <button onClick={() => scrollToSection("location")} className="hover:text-primary transition-colors">Localização</button>
+            {[
+              { id: "hero", label: "Início" },
+              { id: "services", label: "Serviços" },
+              { id: "reviews", label: "Avaliações" },
+              { id: "location", label: "Localização" },
+            ].map(({ id, label }) => (
+              <motion.button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className="relative hover:text-primary transition-colors py-1"
+                whileTap={{ scale: 0.92 }}
+                data-testid={`nav-${id}`}
+              >
+                {label}
+                {activeNav === id && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-primary rounded-full"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </motion.button>
+            ))}
           </nav>
           <Button onClick={() => scrollToSection("booking")} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full px-6">
             Agendar Agora
@@ -252,41 +277,56 @@ export default function Home() {
           <p className="text-primary-foreground/80 text-lg">A confiança de quem ama seus pets.</p>
         </div>
         
-        <div className="relative w-full flex overflow-x-hidden group">
-          <div className="flex gap-6 animate-[scroll_40s_linear_infinite] group-hover:[animation-play-state:paused] px-6" style={{ width: 'max-content' }}>
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex gap-6 px-6"
+            style={{
+              width: "max-content",
+              animation: "reviews-scroll 40s linear infinite",
+            }}
+          >
             {[...REVIEWS, ...REVIEWS].map((review, i) => (
-              <div 
-                key={i} 
-                className="w-[350px] flex-shrink-0 bg-white text-foreground p-8 rounded-2xl shadow-xl transition-all duration-500 hover:z-10"
-                style={{ 
-                  transformStyle: 'preserve-3d',
-                  perspective: '1000px'
+              <div
+                key={i}
+                className="w-[340px] flex-shrink-0 bg-white text-foreground p-8 rounded-2xl shadow-xl cursor-default"
+                style={{
+                  perspective: "1000px",
+                  transition: "transform 0.35s ease, box-shadow 0.35s ease",
+                  transform: hoveredReview === i
+                    ? "rotateY(-8deg) rotateX(2deg) scale(1.03)"
+                    : "rotateY(0deg) rotateX(0deg) scale(1)",
+                  boxShadow: hoveredReview === i
+                    ? "0 24px 48px -8px rgba(0,0,0,0.22)"
+                    : "0 4px 24px -4px rgba(0,0,0,0.12)",
+                  transformStyle: "preserve-3d",
+                  animationPlayState: hoveredReview === i ? "paused" : "running",
                 }}
+                onMouseEnter={() => setHoveredReview(i)}
+                onMouseLeave={() => setHoveredReview(null)}
+                data-testid={`review-card-${i}`}
               >
-                <div className="flex flex-col h-full transform transition-transform duration-300 hover:rotate-y-[-8deg] hover:rotate-x-[2deg]">
-                  <div className="flex items-center gap-1 mb-4 text-accent">
-                    {[...Array(review.stars)].map((_, j) => (
-                      <svg key={j} className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    ))}
-                  </div>
-                  <p className="text-foreground/80 italic mb-6 flex-grow leading-relaxed">"{review.text}"</p>
-                  <div className="mt-auto">
-                    <p className="font-semibold text-primary">{review.name}</p>
-                    <p className="text-sm text-muted-foreground">{review.time}</p>
-                  </div>
+                <div className="flex items-center gap-1 mb-4 text-amber-400">
+                  {[...Array(review.stars)].map((_, j) => (
+                    <svg key={j} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-foreground/80 italic mb-6 leading-relaxed flex-grow">"{review.text}"</p>
+                <div>
+                  <p className="font-semibold text-primary">{review.name}</p>
+                  <p className="text-sm text-muted-foreground">{review.time}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        
+
         <style dangerouslySetInnerHTML={{__html: `
-          @keyframes scroll {
+          @keyframes reviews-scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
           }
-          .rotate-y-\\[-8deg\\] { transform: rotateY(-8deg); }
-          .rotate-x-\\[2deg\\] { transform: rotateX(2deg); }
         `}} />
       </section>
 
@@ -355,7 +395,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
             <div className="text-center md:text-left">
               <div className="flex items-center gap-2 justify-center md:justify-start mb-4">
-                <Stethoscope className="w-8 h-8 text-accent" />
+                <img src={cinvetLogo} alt="Cinvet Logo" className="w-10 h-10 object-contain rounded-full" />
                 <span className="font-serif font-bold text-2xl tracking-tight text-white">Cinvet</span>
               </div>
               <p className="text-background/70 max-w-sm mb-6">
