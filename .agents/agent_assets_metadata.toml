@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "CHsYah9Sk0VjOiuc8K8uF"
+uri = "file://artifacts/cinvet/public/images/hero-bg.png"
+type = "image"
+title = "Veterinary hospital interior"
+
+[[generated]]
+id = "XkhYQ4Wlxm2iqTqZgbtHP"
+uri = "file://artifacts/cinvet/public/images/why-cinvet.png"
+type = "image"
+title = "Vet treating a pet"
