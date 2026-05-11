@@ -7,6 +7,7 @@ import {
   Zap, SquareActivity, Brain, Droplet, Clock
 } from "lucide-react";
 import cinvetLogo from "@assets/cinvet_1778523556349.png";
+import sobreNosImg from "@assets/cinvet_sobre_nos_1778524202959.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -89,13 +90,14 @@ export default function Home() {
       {/* Navbar */}
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"}`}>
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection("hero")}>
-            <img src={cinvetLogo} alt="Cinvet Logo" className="w-10 h-10 object-contain rounded-full" />
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection("hero")}>
+            <img src={cinvetLogo} alt="Cinvet Logo" className="w-16 h-16 object-contain rounded-full shadow-md" />
             <span className="font-serif font-bold text-2xl tracking-tight text-primary">Cinvet</span>
           </div>
           <nav className="hidden md:flex gap-8 items-center text-sm font-medium text-foreground/80">
             {[
               { id: "hero", label: "Início" },
+              { id: "sobre", label: "Sobre Nós" },
               { id: "services", label: "Serviços" },
               { id: "reviews", label: "Avaliações" },
               { id: "location", label: "Localização" },
@@ -212,6 +214,84 @@ export default function Home() {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Sobre Nós Section */}
+      <section id="sobre" className="py-24 bg-background overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="flex flex-col lg:flex-row gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="w-full lg:w-5/12 flex-shrink-0"
+            >
+              <div className="relative">
+                <div className="absolute -inset-4 bg-primary/5 rounded-3xl -rotate-2" />
+                <img
+                  src={sobreNosImg}
+                  alt="Equipe Cinvet"
+                  className="relative w-full h-[520px] object-cover rounded-2xl shadow-2xl"
+                />
+                <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground px-6 py-4 rounded-2xl shadow-xl">
+                  <p className="font-serif text-3xl font-bold">24h</p>
+                  <p className="text-xs uppercase tracking-widest opacity-80">Sempre aqui</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
+              className="w-full lg:w-7/12 space-y-8"
+            >
+              <div>
+                <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-3">Nossa História</p>
+                <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground leading-tight mb-6">
+                  Porque para eles, <br className="hidden md:block" />
+                  <span className="text-primary">não existe amanhã.</span>
+                </h2>
+              </div>
+
+              <div className="space-y-5 text-foreground/75 text-lg leading-relaxed">
+                <p>
+                  O Cinvet nasceu de uma convicção simples: todo animal merece cuidado de verdade, a qualquer hora do dia ou da noite.
+                </p>
+                <p>
+                  Ao longo dos anos, construímos uma equipe de veterinários apaixonados, especialistas em diversas áreas, unidos por um propósito comum — tratar cada paciente com a mesma dedicação que daríamos a um membro da família.
+                </p>
+                <p>
+                  Nossa estrutura hospitalar completa, com UTI, cirurgias, exames e plantão 24 horas, existe porque sabemos que emergências não escolhem horário. E quando o momento chegar, queremos estar prontos para o seu pet.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-6 pt-4">
+                {[
+                  { value: "24h", label: "Atendimento contínuo" },
+                  { value: "+407", label: "Avaliações no Google" },
+                  { value: "4.4★", label: "Nota média" },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center p-4 rounded-2xl bg-muted/50 border border-border/50">
+                    <p className="font-serif text-2xl font-bold text-primary mb-1">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                onClick={() => scrollToSection("booking")}
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-14 px-10 text-base"
+                data-testid="button-sobre-agendar"
+              >
+                Agende uma consulta
+              </Button>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -373,17 +453,27 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="w-full lg:w-1/2 h-[500px] rounded-2xl overflow-hidden shadow-lg border border-border">
-              <iframe 
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBBs&q=Cinvet+Hospital+Veterinário,Fortaleza+CE" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen 
-                loading="lazy" 
+            <div className="w-full lg:w-1/2 h-[500px] rounded-2xl overflow-hidden shadow-lg border border-border flex flex-col">
+              <iframe
+                src="https://maps.google.com/maps?q=R.+Dr.+Gilberto+Studart,+800,+Cocó,+Fortaleza+-+CE,+60192-105&output=embed&z=16"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps Location"
-              ></iframe>
+                title="Cinvet - Localização"
+              />
+              <a
+                href="https://google.com/maps/place/Cinvet+Hospital+Veterinário+24+Horas/data=!4m2!3m1!1s0x0:0xcd86ee9435cdd4ae?sa=X&ved=1t:2428&ictx=111"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-3 bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+                data-testid="link-google-maps"
+              >
+                <Search className="w-4 h-4" />
+                Abrir no Google Maps
+              </a>
             </div>
           </div>
         </div>
