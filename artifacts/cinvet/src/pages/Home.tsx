@@ -11,7 +11,7 @@ const sobreNosImg = "/cinvet-sobre-nos.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+// Select nativo utilizado para evitar bug de tela branca do Radix UI Select
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -311,16 +311,43 @@ export default function Home() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="service">Especialidade / Serviço</Label>
-                  <Select value={selectedService} onValueChange={setSelectedService}>
-                    <SelectTrigger id="service" className="h-12">
-                      <SelectValue placeholder="Selecione um serviço" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {SERVICES.map(s => (
-                        <SelectItem key={s.name} value={s.name}>{s.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <select
+                    id="service"
+                    value={selectedService}
+                    onChange={(e) => setSelectedService(e.target.value)}
+                    style={{
+                      width: "100%",
+                      height: "48px",
+                      padding: "0 16px",
+                      borderRadius: "8px",
+                      border: "1px solid hsl(var(--border))",
+                      background: "hsl(var(--background))",
+                      color: selectedService ? "hsl(var(--foreground))" : "hsl(var(--muted-foreground))",
+                      fontSize: "14px",
+                      outline: "none",
+                      cursor: "pointer",
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 12px center",
+                      paddingRight: "40px",
+                      transition: "border-color 0.2s, box-shadow 0.2s",
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "hsl(var(--primary))";
+                      e.target.style.boxShadow = "0 0 0 2px hsl(var(--primary) / 0.2)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "hsl(var(--border))";
+                      e.target.style.boxShadow = "none";
+                    }}
+                  >
+                    <option value="" disabled hidden>Selecione um serviço</option>
+                    {SERVICES.map(s => (
+                      <option key={s.name} value={s.name}>{s.name}</option>
+                    ))}
+                  </select>
                 </div>
                 
                 <div className="space-y-2">
