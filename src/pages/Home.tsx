@@ -156,12 +156,6 @@ const SERVICES = [
   { name: "Veterinário para gatos", icon: Cat, detail: "Manejo cuidadoso" },
 ];
 
-const HERO_METRICS = [
-  { value: "24h", label: "atendimento todos os dias" },
-  { value: "+20", label: "especialidades veterinárias" },
-  { value: "2", label: "unidades em Fortaleza" },
-];
-
 const SPECIES_OPTIONS = [
   "Cachorro",
   "Gato",
@@ -417,22 +411,11 @@ export default function Home() {
               variants={listReveal}
             >
               <motion.p className="hero-lead" variants={reveal}>
-                Duas unidades preparadas para urgências, internação, exames,
-                acompanhamento clínico e especialidades veterinárias em todos os
-                momentos do dia.
+                Duas unidades preparadas para urgências, internação, exames e
+                acompanhamento clínico em todos os momentos do dia.
               </motion.p>
 
               <motion.div className="hero-cta-row" variants={reveal}>
-                <button
-                  type="button"
-                  className="primary-action hero-action"
-                  onClick={() => scrollToSection("contato")}
-                >
-                  Agendar atendimento
-                  <span>
-                    <ArrowUpRight className="h-4 w-4" />
-                  </span>
-                </button>
                 <button
                   type="button"
                   className="emergency-action"
@@ -442,15 +425,6 @@ export default function Home() {
                   <HeartPulse className="h-5 w-5" />
                   Emergência 24h
                 </button>
-              </motion.div>
-
-              <motion.div className="hero-metrics" variants={listReveal}>
-                {HERO_METRICS.map((metric) => (
-                  <motion.div key={metric.label} variants={reveal}>
-                    <strong>{metric.value}</strong>
-                    <span>{metric.label}</span>
-                  </motion.div>
-                ))}
               </motion.div>
             </motion.div>
           </div>
