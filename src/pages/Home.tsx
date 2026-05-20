@@ -416,12 +416,6 @@ export default function Home() {
               animate="visible"
               variants={listReveal}
             >
-              <motion.p className="section-kicker" variants={reveal}>
-                Hospital veterinário 24 horas em Fortaleza
-              </motion.p>
-              <motion.h1 variants={reveal}>
-                Cuidado imediato, estrutura completa e acolhimento real.
-              </motion.h1>
               <motion.p className="hero-lead" variants={reveal}>
                 Duas unidades preparadas para urgências, internação, exames,
                 acompanhamento clínico e especialidades veterinárias em todos os
@@ -964,7 +958,7 @@ export default function Home() {
             <FaWhatsapp className="h-7 w-7" />
           </button>
         </TooltipTrigger>
-        <TooltipContent side="right">Fale conosco no WhatsApp</TooltipContent>
+        <TooltipContent side="left">Fale conosco no WhatsApp</TooltipContent>
       </Tooltip>
     </div>
   );
