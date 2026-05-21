@@ -620,7 +620,7 @@ main section {
   background: var(--cinvet-blue-deep);
   box-shadow: var(--cinvet-shadow);
   color: inherit;
-  cursor: default;
+  cursor: zoom-in;
   text-align: left;
 }
 
@@ -634,18 +634,22 @@ main section {
 
 .video-panel::after,
 .about-video::after {
-  display: none;
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(180deg, transparent 48%, rgba(7, 26, 59, 0.58));
+  pointer-events: none;
 }
 
 .video-panel__caption {
   position: absolute;
   left: 18px;
-  top: 18px;
+  right: 18px;
+  bottom: 18px;
   z-index: 1;
   display: flex;
   align-items: center;
   gap: 10px;
-  width: min(360px, calc(100% - 180px));
   border: 1px solid rgba(255, 255, 255, 0.34);
   border-radius: 8px;
   padding: 14px 16px;
@@ -670,7 +674,6 @@ main section {
   font-size: 0.82rem;
   font-weight: 900;
   box-shadow: 0 16px 38px -28px rgba(7, 26, 59, 0.9);
-  cursor: pointer;
   transition:
     transform 320ms var(--cinvet-ease),
     background 320ms var(--cinvet-ease),
@@ -762,7 +765,7 @@ main section {
   padding: 0;
   background: var(--cinvet-blue-deep);
   color: inherit;
-  cursor: default;
+  cursor: zoom-in;
   text-align: left;
 }
 

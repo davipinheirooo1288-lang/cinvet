@@ -443,46 +443,45 @@ export default function Home() {
           </div>
 
           <div className="services-layout">
-            <motion.div
+            <motion.button
+              type="button"
               className="video-panel"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
               variants={reveal}
               transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              data-testid="services-video-panel"
+              onClick={() =>
+                setMediaPreview({
+                  type: "video",
+                  webm: servicesVideoWebm,
+                  mp4: servicesVideoMp4,
+                  title: "Serviços e estrutura Cinvet",
+                })
+              }
+              data-testid="open-services-video"
             >
               <video
-                controls
+                autoPlay
+                muted
+                loop
                 playsInline
-                preload="metadata"
-                controlsList="nodownload"
+                preload="auto"
+                aria-hidden="true"
                 aria-label="Vídeo dos serviços do Cinvet"
               >
                 <source src={servicesVideoMp4} type="video/mp4" />
                 <source src={servicesVideoWebm} type="video/webm" />
               </video>
-              <button
-                type="button"
-                className="media-expand-chip media-expand-button"
-                data-testid="open-services-video"
-                onClick={() =>
-                  setMediaPreview({
-                    type: "video",
-                    webm: servicesVideoWebm,
-                    mp4: servicesVideoMp4,
-                    title: "Serviços e estrutura Cinvet",
-                  })
-                }
-              >
+              <span className="media-expand-chip">
                 <Volume2 className="h-4 w-4" />
-                Abrir com som
-              </button>
+                Ver com som
+              </span>
               <div className="video-panel__caption">
                 <Sparkles className="h-4 w-4" />+ de 20 especialidades, UTI,
                 laboratório próprio e internação.
               </div>
-            </motion.div>
+            </motion.button>
 
             <motion.div
               className="service-grid"
@@ -520,38 +519,37 @@ export default function Home() {
               viewport={{ once: true, margin: "-80px" }}
               variants={listReveal}
             >
-              <motion.div
+              <motion.button
+                type="button"
                 className="about-video"
                 variants={reveal}
-                data-testid="about-video-panel"
+                onClick={() =>
+                  setMediaPreview({
+                    type: "video",
+                    webm: aboutVideoWebm,
+                    mp4: aboutVideoMp4,
+                    title: "Sobre o Cinvet",
+                  })
+                }
+                data-testid="open-about-video"
               >
                 <video
-                  controls
+                  autoPlay
+                  muted
+                  loop
                   playsInline
-                  preload="metadata"
-                  controlsList="nodownload"
+                  preload="auto"
+                  aria-hidden="true"
                   aria-label="Vídeo institucional sobre o Cinvet"
                 >
                   <source src={aboutVideoMp4} type="video/mp4" />
                   <source src={aboutVideoWebm} type="video/webm" />
                 </video>
-                <button
-                  type="button"
-                  className="media-expand-chip media-expand-button"
-                  data-testid="open-about-video"
-                  onClick={() =>
-                    setMediaPreview({
-                      type: "video",
-                      webm: aboutVideoWebm,
-                      mp4: aboutVideoMp4,
-                      title: "Sobre o Cinvet",
-                    })
-                  }
-                >
+                <span className="media-expand-chip">
                   <Volume2 className="h-4 w-4" />
-                  Abrir com som
-                </button>
-              </motion.div>
+                  Ver com som
+                </span>
+              </motion.button>
               <motion.button
                 type="button"
                 className="about-photo"
