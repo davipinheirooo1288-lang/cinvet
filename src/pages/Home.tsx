@@ -29,6 +29,7 @@ import {
   Star,
   Stethoscope,
   Syringe,
+  Volume2,
   X,
   Zap,
 } from "lucide-react";
@@ -442,44 +443,46 @@ export default function Home() {
           </div>
 
           <div className="services-layout">
-            <motion.button
-              type="button"
+            <motion.div
               className="video-panel"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
               variants={reveal}
               transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() =>
-                setMediaPreview({
-                  type: "video",
-                  webm: servicesVideoWebm,
-                  mp4: servicesVideoMp4,
-                  title: "Serviços e estrutura Cinvet",
-                })
-              }
-              data-testid="open-services-video"
+              data-testid="services-video-panel"
             >
               <video
-                autoPlay
-                muted
-                loop
+                controls
                 playsInline
-                preload="auto"
+                preload="metadata"
+                controlsList="nodownload"
                 aria-label="Vídeo dos serviços do Cinvet"
               >
-                <source src={servicesVideoWebm} type="video/webm" />
                 <source src={servicesVideoMp4} type="video/mp4" />
+                <source src={servicesVideoWebm} type="video/webm" />
               </video>
-              <span className="media-expand-chip">
-                <Maximize2 className="h-4 w-4" />
-                Ver vídeo
-              </span>
+              <button
+                type="button"
+                className="media-expand-chip media-expand-button"
+                data-testid="open-services-video"
+                onClick={() =>
+                  setMediaPreview({
+                    type: "video",
+                    webm: servicesVideoWebm,
+                    mp4: servicesVideoMp4,
+                    title: "Serviços e estrutura Cinvet",
+                  })
+                }
+              >
+                <Volume2 className="h-4 w-4" />
+                Abrir com som
+              </button>
               <div className="video-panel__caption">
                 <Sparkles className="h-4 w-4" />+ de 20 especialidades, UTI,
                 laboratório próprio e internação.
               </div>
-            </motion.button>
+            </motion.div>
 
             <motion.div
               className="service-grid"
@@ -517,36 +520,38 @@ export default function Home() {
               viewport={{ once: true, margin: "-80px" }}
               variants={listReveal}
             >
-              <motion.button
-                type="button"
+              <motion.div
                 className="about-video"
                 variants={reveal}
-                onClick={() =>
-                  setMediaPreview({
-                    type: "video",
-                    webm: aboutVideoWebm,
-                    mp4: aboutVideoMp4,
-                    title: "Sobre o Cinvet",
-                  })
-                }
-                data-testid="open-about-video"
+                data-testid="about-video-panel"
               >
                 <video
-                  autoPlay
-                  muted
-                  loop
+                  controls
                   playsInline
-                  preload="auto"
+                  preload="metadata"
+                  controlsList="nodownload"
                   aria-label="Vídeo institucional sobre o Cinvet"
                 >
-                  <source src={aboutVideoWebm} type="video/webm" />
                   <source src={aboutVideoMp4} type="video/mp4" />
+                  <source src={aboutVideoWebm} type="video/webm" />
                 </video>
-                <span className="media-expand-chip">
-                  <Maximize2 className="h-4 w-4" />
-                  Ver vídeo
-                </span>
-              </motion.button>
+                <button
+                  type="button"
+                  className="media-expand-chip media-expand-button"
+                  data-testid="open-about-video"
+                  onClick={() =>
+                    setMediaPreview({
+                      type: "video",
+                      webm: aboutVideoWebm,
+                      mp4: aboutVideoMp4,
+                      title: "Sobre o Cinvet",
+                    })
+                  }
+                >
+                  <Volume2 className="h-4 w-4" />
+                  Abrir com som
+                </button>
+              </motion.div>
               <motion.button
                 type="button"
                 className="about-photo"
@@ -874,9 +879,9 @@ export default function Home() {
               {mediaPreview.type === "image" ? (
                 <img src={mediaPreview.src} alt={mediaPreview.title} />
               ) : (
-                <video controls autoPlay playsInline>
-                  <source src={mediaPreview.webm} type="video/webm" />
+                <video controls autoPlay playsInline controlsList="nodownload">
                   <source src={mediaPreview.mp4} type="video/mp4" />
+                  <source src={mediaPreview.webm} type="video/webm" />
                 </video>
               )}
             </div>
